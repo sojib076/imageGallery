@@ -8,7 +8,9 @@ import { Button, CircularProgress, Grid, Snackbar, TextField, Typography } from 
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import Image from 'next/image';
 
-const ImageUpload = () => {
+const ImageUpload = ({setRefetch} : {
+  setRefetch: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const [files, setFiles] = useState<File[]>([]);
   const [isUploading, setIsUploading] = useState(false);
 
@@ -45,6 +47,7 @@ const ImageUpload = () => {
 
 
       if (response.ok) {
+        setRefetch(true)
 
         setSnackbarMessage('Images uploaded successfully!');
       } else {

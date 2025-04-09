@@ -5,7 +5,7 @@
 import ImageUpload from "@/components/uploadimage";
 import { useEffect, useState } from "react";
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button, Skeleton, Paper, IconButton, InputBase } from '@mui/material';
-import { CleaningServicesOutlined, Delete, Search } from "@mui/icons-material";
+import {  Delete, Search } from "@mui/icons-material";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Image from "next/image";
 
@@ -26,6 +26,7 @@ export default function GalleryPage() {
   const [query, setQuery] = useState("")
   const [page, setPage] = useState(1)
   const [pagination , setPagination] = useState<Ipagination>()
+  const [refecth, setRefetch] = useState(false)
 
 
   useEffect(() => {
@@ -43,7 +44,7 @@ export default function GalleryPage() {
       }
     };
     fetchData();
-  },[] );
+  },[refecth] );
 
 
 
@@ -132,8 +133,11 @@ export default function GalleryPage() {
   return (
     <div
     >
-      <h1>Gallery</h1>
+     
       <ImageUpload
+       
+        setRefetch={setRefetch}
+
 
       />
       <div className="md:p-10 p-2">
@@ -156,8 +160,16 @@ export default function GalleryPage() {
             inputProps={{ "aria-label": "search" }}
           />
 
-          <IconButton aria-label="clear search" className="text-gray-500">
-            <CleaningServicesOutlined />
+          <IconButton 
+          onClick={() => {
+            setRefetch(!refecth)
+            setQuery("")
+            setImages([])
+            setPage(1)
+          }}
+
+          aria-label="clear search" className="text-gray-500 text-sm">
+            Reset
           </IconButton>
 
         </Paper>
@@ -175,7 +187,6 @@ export default function GalleryPage() {
 
 
                   />
-
 
                 </div>
 
@@ -209,7 +220,7 @@ export default function GalleryPage() {
           }
 
             endMessage={<p
-              className="text-center font-extrabold text-white bg-black w-[70%] p-2 mx-auto box-shadow-md rounded-lg"
+              className="text-center font-extrabold text-white bg-black md:w-[70%] p-2 my-4 mx-auto box-shadow-md rounded-lg"
             >No more Images available.</p>}
           >
             <div
@@ -224,11 +235,11 @@ export default function GalleryPage() {
                     <Image
                      src={image.imageUrl}
                      alt={image.title}
-                       className="w-full h-auto rounded-lg shadow-lg transition-transform duration-300 transform cursor-pointer"
+                       className=" rounded-lg shadow-lg transition-transform duration-300 transform cursor-pointer"
                        onClick={() => handleImageClick(image)}  
-                      width={300}
+                      width={500}
                       height={300}
-                      style={{ width: '100%', height: '100%' }}
+                      
                     ></Image>
 
                     <Button
